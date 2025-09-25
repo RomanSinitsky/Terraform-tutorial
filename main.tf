@@ -1,10 +1,10 @@
 terraform {
-  cloud { 
-    hostname = "app.terraform.io"
-    organization = "RS-personal" 
+  cloud {
+    hostname     = "app.terraform.io"
+    organization = "RS-personal"
 
     workspaces {
-      name = "getting-started" 
+      name = "getting-started"
     }
   }
 
@@ -37,7 +37,7 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   providers = {
     aws = aws.eu
-    }
+  }
 
   name = "europe-vpc"
   cidr = "10.0.0.0/16"
@@ -50,7 +50,7 @@ module "vpc" {
   enable_vpn_gateway = true
 
   tags = {
-    Terraform = "true"
+    Terraform   = "true"
     Environment = "dev"
   }
 }
