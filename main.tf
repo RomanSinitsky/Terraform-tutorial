@@ -25,11 +25,16 @@ variable "instance_type" {
 }
 
 resource "aws_instance" "my_server" {
+  count = 2
+  lifecilce {
+    create_before_destroy = true
+  }
+  provider      = aws.us
   ami           = "ami-08982f1c5bf93d976"
   instance_type = var.instance_type
 
   tags = {
-    Name = "Server-${local.server_name}"
+    Name = "Server-${local.server_name}-${count.index}"
   }
 }
 
