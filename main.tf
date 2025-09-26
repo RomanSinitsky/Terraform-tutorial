@@ -1,4 +1,5 @@
 terraform {
+/*
   cloud {
     hostname     = "app.terraform.io"
     organization = "RS-personal"
@@ -7,7 +8,7 @@ terraform {
       name = "getting-started"
     }
   }
-
+*/
   required_providers {
     aws = {
       source  = "hashicorp/aws"
@@ -15,7 +16,7 @@ terraform {
     }
   }
 }
-
+/*
 locals {
   server_name = "test"
 }
@@ -23,18 +24,24 @@ locals {
 variable "instance_type" {
   type = string
 }
-
+*/
 resource "aws_instance" "my_server" {
-  count = 2
-  lifecilce {
+  lifecycle {
     create_before_destroy = true
   }
+
+  for_each = {
+    nano = "t2.nano"
+    micro = "t2.micro"
+    small = "t2.small"
+  }
+
   provider      = aws.us
   ami           = "ami-08982f1c5bf93d976"
-  instance_type = var.instance_type
+  instance_type = each.value
 
   tags = {
-    Name = "Server-${local.server_name}-${count.index}"
+    Name = "Server-${each.key}"
   }
 }
 
